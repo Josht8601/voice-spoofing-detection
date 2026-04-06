@@ -1,6 +1,9 @@
 # voice-spoofing-detection
+
+## Description
 Binary audio spoofing detector classifying speech as real or AI-generated using Light CNN and Wav2Vec2/HuBERT. Evaluated on ASVspoof 2019 with a focus on generalization to unseen voice synthesis methods and robustness under noise, compression, and pitch variations.
 
+## Installation & Setup Instructions
 
 ## Dataset Information
 This project uses the **ASVspoof 2019 dataset**, a benchmark dataset for detecting synthetic (spoofed) speech in automatic speaker verification systems. It includes both bonafide (real) and spoofed audio, with spoofed samples generated from multiple text-to-speech and voice conversion systems.
