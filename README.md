@@ -22,4 +22,5 @@ The dataset is available on Kaggle:
 
 ## Author and Contact Info
 Name: Joshua Thomas
+
 Email: josht8601@gmail.com
