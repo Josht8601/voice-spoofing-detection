@@ -15,3 +15,8 @@ The dataset contains approximately 25,000 audio samples and is pre-split into tr
 
 The dataset is available on Kaggle:
 - https://www.kaggle.com/datasets/awsaf49/asvpoof-2019-dataset
+
+
+## Author and Contact Info
+Name: Joshua Thomas
+Email: josht8601@gmail.com
