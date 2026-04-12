@@ -28,21 +28,21 @@ The dataset is available on Kaggle:
 - Move the inner LA/ folder to sit directly in the data/ folder
 - data/
   
-   └── LA/
+      └── LA/
   
-         ├── ASVspoof2019_LA_train/
+            ├── ASVspoof2019_LA_train/
   
-         ├── ASVspoof2019_LA_dev/
+            ├── ASVspoof2019_LA_dev/
   
-         ├── ASVspoof2019_LA_eval/
+            ├── ASVspoof2019_LA_eval/
   
-         ├── ASVspoof2019_LA_cm_protocols/
+            ├── ASVspoof2019_LA_cm_protocols/
   
-         ├── ASVspoof2019_LA_asv_protocols/
+            ├── ASVspoof2019_LA_asv_protocols/
   
-         ├── ASVspoof2019_LA_asv_scores/
+            ├── ASVspoof2019_LA_asv_scores/
   
-         ├── README.LA.txt           
+            ├── README.LA.txt           
 
 
 ## Author and Contact Info
