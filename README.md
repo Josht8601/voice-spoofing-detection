@@ -19,6 +19,14 @@ The dataset contains approximately 25,000 audio samples and is pre-split into tr
 The dataset is available on Kaggle:
 - https://www.kaggle.com/datasets/awsaf49/asvpoof-2019-dataset
 
+**Dataset Installation**
+- Create a "data" folder within the project directory
+- Run the following command to install the dataset and put it in the data folder: kaggle datasets download -d awsaf49/asvpoof-2019-dataset -p data/
+- Once installed, the dataset will be installed as a zip file: asvpoof-2019-dataset.zip
+- Unzip the file
+- Go into the unzipped file to this location: data/asvpoof-2019-dataset/LA/LA
+- Move the inner LA/ folder to sit directly in the data/ folder
+
 
 ## Author and Contact Info
 Name: Joshua Thomas
