@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import numpy as np
+import librosa
+
 
 TARGET_LENGTH = 64000
 LABEL_MAP = {"bonafide": 0, "spoof": 1}
@@ -49,3 +51,14 @@ def preprocess_waveform(waveform: np.ndarray, target_length: int = TARGET_LENGTH
     waveform = fix_length(waveform, target_length=target_length)
     waveform = normalize_waveform(waveform)
     return waveform
+
+def waveform_to_mel_spectrogram(waveform, sr=16000):
+    spec = librosa.feature.melspectrogram(
+        y=waveform,
+        sr=sr,
+        n_mels=128
+    )
+
+    spec_db = librosa.power_to_db(spec, ref=np.max)
+
+    return spec_db.astype(np.float32)

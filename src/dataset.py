@@ -6,7 +6,7 @@ import torch
 from torch.utils.data import Dataset
 
 from data_loader import ASVspoofDataLoader
-
+from preprocess import waveform_to_mel_spectrogram
 
 class ASVspoofDataset(Dataset):
     """
@@ -33,11 +33,18 @@ class ASVspoofDataset(Dataset):
         waveform = sample["waveform"]  # numpy array (64000,)
         label = sample["label"]        # int (0 or 1)
 
-        # Convert to PyTorch tensors
-        waveform = torch.tensor(waveform, dtype=torch.float32)
+        # Convert waveform → spectrogram
+        spec = waveform_to_mel_spectrogram(waveform)
+
+        # Convert to PyTorch tensor
+        spec = torch.tensor(spec, dtype=torch.float32)
+
+        # Add channel dimension for CNN
+        spec = spec.unsqueeze(0)
+
         label = torch.tensor(label, dtype=torch.long)
 
-        return waveform, label
+        return spec, label
 
 
 # Quick test (run this file directly)
