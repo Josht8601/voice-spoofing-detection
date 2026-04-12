@@ -26,6 +26,15 @@ The dataset is available on Kaggle:
 - Unzip the file
 - Go into the unzipped file to this location: data/asvpoof-2019-dataset/LA/LA
 - Move the inner LA/ folder to sit directly in the data/ folder
+- data/
+   └── LA/
+         ├── ASVspoof2019_LA_train/
+         ├── ASVspoof2019_LA_dev/
+         ├── ASVspoof2019_LA_eval/
+         ├── ASVspoof2019_LA_cm_protocols/
+         ├── ASVspoof2019_LA_asv_protocols/
+         ├── ASVspoof2019_LA_asv_scores/
+         ├── README.LA.txt           
 
 
 ## Author and Contact Info
