@@ -1,15 +1,18 @@
-from torch.utils.data import DataLoader
-from dataset import ASVspoofDataset
-from baseline_cnn_model import SimpleCNN
+import numpy as np
+import librosa
+import librosa.display
+import matplotlib.pyplot as plt
 
-dataset = ASVspoofDataset("../data/LA", split="train")
+audio_path = "../data/LA/ASVspoof2019_LA_train/flac/LA_T_1004644.flac"
 
-loader = DataLoader(dataset, batch_size=8, shuffle=True)
+waveform, sr = librosa.load(audio_path, sr=None)
 
-model = SimpleCNN()
+spec = librosa.feature.melspectrogram(y=waveform, sr=sr)
+spec_db = librosa.power_to_db(spec, ref=np.max)
 
-x, y = next(iter(loader))
-
-output = model(x)
-
-print(output.shape)
+plt.figure(figsize=(8, 4))
+librosa.display.specshow(spec_db, sr=sr, x_axis='time', y_axis='mel')
+plt.colorbar(format='%+2.0f dB')
+plt.title("Mel Spectrogram")
+plt.tight_layout()
+plt.savefig("spectrogram.png")

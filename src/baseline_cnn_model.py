@@ -16,23 +16,15 @@ class SimpleCNN(nn.Module):
             nn.MaxPool2d(2)
         )
 
-        # TEMP placeholder, will set dynamically
-        self.fc = None
+        # LazyLinear automatically infers input size
+        self.fc = nn.Sequential(
+            nn.Flatten(),
+            nn.LazyLinear(64),   # no input size needed
+            nn.ReLU(),
+            nn.Linear(64, 2)
+        )
 
     def forward(self, x):
         x = self.conv(x)
-
-        # Flatten
-        x = x.view(x.size(0), -1)
-
-        # Dynamically create FC layer
-        if self.fc is None:
-            self.fc = nn.Sequential(
-                nn.Linear(x.shape[1], 64),
-                nn.ReLU(),
-                nn.Linear(64, 2)
-            ).to(x.device)
-
         x = self.fc(x)
-
         return x
