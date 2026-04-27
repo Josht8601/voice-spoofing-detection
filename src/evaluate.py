@@ -4,6 +4,7 @@ from collections import Counter
 
 from dataset import ASVspoofDataset
 from baseline_cnn_model import SimpleCNN
+from collections import Counter
 
 
 def evaluate():
@@ -11,13 +12,25 @@ def evaluate():
     print("Using device:", device)
 
     # Load dev dataset
-    dev_dataset = ASVspoofDataset("../data/LA", split="dev")
+    #dev_dataset = ASVspoofDataset("../data/LA", split="dev")
+    #test_systems = ["A16", "A17", "A18", "A19"]
+    test_systems = ["A06", "A07", "A08", "A09", "A10"]
+
+    dev_dataset = ASVspoofDataset(
+        "../data/LA",
+        split="train",
+        allowed_systems=test_systems
+    )
+
+    labels = [dev_dataset[i][1].item() for i in range(len(dev_dataset))]
+    print("FINAL TEST LABEL DISTRIBUTION:", Counter(labels))
+
     dev_loader = DataLoader(dev_dataset, batch_size=8, shuffle=False)
 
     # Model
     model = SimpleCNN().to(device)
 
-    # 🔥 Initialize LazyLinear
+    # Initialize LazyLinear
     x_init, _ = next(iter(dev_loader))
     x_init = x_init.to(device)
     _ = model(x_init)

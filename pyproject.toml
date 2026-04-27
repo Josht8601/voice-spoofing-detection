@@ -10,5 +10,7 @@ dependencies = [
     "matplotlib>=3.10.8",
     "numpy>=2.4.4",
     "soundfile>=0.13.1",
+    "streamlit>=1.56.0",
+    "streamlit-audiorecorder>=0.0.6",
     "torch>=2.11.0",
 ]

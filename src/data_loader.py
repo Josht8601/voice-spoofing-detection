@@ -10,7 +10,7 @@ from preprocess import encode_label, preprocess_waveform
 
 
 class ASVspoofDataLoader:
-    def __init__(self, data_dir: str | Path, split: str = "train") -> None:
+    def __init__(self, data_dir: str | Path, split: str = "train", allowed_systems: List[str] | None = None) -> None:
         self.data_dir = Path(data_dir)
 
         split_map = {
@@ -36,13 +36,40 @@ class ASVspoofDataLoader:
         self.protocol_file = split_map[split]["protocol_file"]
 
         self.file_labels = self._load_protocol()
+
+        if allowed_systems is not None:
+            filtered = {}
+
+            for file_name, info in self.file_labels.items():
+                label = info["label"]
+                system = info["system"]
+
+                # ✅ ALWAYS keep bonafide
+                if label == "bonafide":
+                    filtered[file_name] = info
+
+                # ✅ Keep ONLY selected spoof systems
+                elif label == "spoof" and system in allowed_systems:
+                    filtered[file_name] = info
+
+            self.file_labels = filtered
+
+        # DEBUG PRINT (temporary)
+        systems = set()
+
+        for info in self.file_labels.values():
+            if info["system"] is not None:
+                systems.add(info["system"])
+
+        print("AVAILABLE SYSTEMS:", sorted(systems))
+
         self.file_names = list(self.file_labels.keys())
 
-    def _load_protocol(self) -> Dict[str, str]:
+    def _load_protocol(self) -> Dict[str, dict]:
         if not self.protocol_file.exists():
             raise FileNotFoundError(f"Protocol file not found: {self.protocol_file}")
 
-        file_labels: Dict[str, str] = {}
+        file_labels: Dict[str, dict] = {}
 
         with open(self.protocol_file, "r", encoding="utf-8") as f:
             for line in f:
@@ -52,7 +79,17 @@ class ASVspoofDataLoader:
 
                 file_name = parts[1]
                 label = parts[-1]
-                file_labels[file_name] = label
+
+                # 🔥 Handle bonafide vs spoof correctly
+                if label == "bonafide":
+                    system_id = None
+                else:
+                    system_id = parts[3]  # A01, A02, ...
+
+                file_labels[file_name] = {
+                    "label": label,
+                    "system": system_id
+                }
 
         return file_labels
 
@@ -69,7 +106,11 @@ class ASVspoofDataLoader:
 
     def get_example(self, index: int) -> dict:
         file_name = self.file_names[index]
-        label_str = self.file_labels[file_name]
+        #label_str = self.file_labels[file_name]
+        info = self.file_labels[file_name]
+        label_str = info["label"]
+        system = info["system"]
+
         waveform, sample_rate = self.load_audio(file_name)
 
         processed_waveform = preprocess_waveform(waveform)
@@ -81,6 +122,7 @@ class ASVspoofDataLoader:
             "sample_rate": sample_rate,
             "label": label,
             "label_str": label_str,
+            "system": system
         }
 
     def summary(self, n: int = 5) -> List[dict]:

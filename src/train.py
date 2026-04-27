@@ -13,7 +13,15 @@ def train():
     print("Using device:", device)
 
     # Dataset + DataLoader
-    train_dataset = ASVspoofDataset("../data/LA", split="train")
+    # train_dataset = ASVspoofDataset("../data/LA", split="train")
+    #train_systems = [f"A{str(i).zfill(2)}" for i in range(1, 16)]
+    train_systems = ["A01", "A02", "A03", "A04", "A05"]
+    train_dataset = ASVspoofDataset(
+        "../data/LA",
+        split="train",
+        allowed_systems=train_systems
+    )
+    
     train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True)
 
     # Model

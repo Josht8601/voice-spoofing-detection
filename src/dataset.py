@@ -17,12 +17,17 @@ class ASVspoofDataset(Dataset):
         label: torch.LongTensor (0 or 1)
     """
 
-    def __init__(self, data_dir: str | Path, split: str = "train") -> None:
+    def __init__(self, data_dir: str | Path, split: str = "train", allowed_systems=None) -> None:
         self.data_dir = Path(data_dir)
         self.split = split
 
         # Use your existing data loader
-        self.loader = ASVspoofDataLoader(self.data_dir, split=self.split)
+        #self.loader = ASVspoofDataLoader(self.data_dir, split=self.split)
+        self.loader = ASVspoofDataLoader(
+            self.data_dir,
+            split=self.split,
+            allowed_systems=allowed_systems
+        )
 
     def __len__(self) -> int:
         return len(self.loader)
